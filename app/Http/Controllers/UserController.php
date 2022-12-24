@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        echo "form";
+        //
     }
 
     /**
@@ -80,9 +80,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        echo $id;
-    }
-    public function trash(){
-        echo "trashed data";
+        //
     }
 }

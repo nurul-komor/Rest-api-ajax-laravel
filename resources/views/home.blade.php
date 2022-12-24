@@ -9,8 +9,8 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button type="button" id="create-user" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
+            <button type="button" id="create-user-btn" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#userModal">
                 Create User
             </button>
             <a class="btn btn-warning " href="/user/trashes">Trashes</a>
