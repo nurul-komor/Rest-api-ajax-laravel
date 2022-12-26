@@ -197,7 +197,18 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        echo $id;
+       $user = User::find($id);
+        if(!is_null($user)){
+             $user->delete();
+            $data = "user moved to trash";
+            $resCode = 200;
+        }else if(empty($user)){
+            $data = "User not found";
+            $resCode = 404;
+        }
+        return response()->json([
+            "data"=>$data,
+        ], $resCode);
     }
     public function trash(){
         echo "trashed data";

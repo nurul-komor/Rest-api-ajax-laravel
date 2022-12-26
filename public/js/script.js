@@ -22,7 +22,7 @@ $(document).ready(function () {
                             Edit
                         </button>
                         <button data-id="${data.id}" type="submit" id="delete-user"
-                            class="btn btn-warning">Delete</button>
+                            class="btn btn-warning delete-user-btn">Delete</button>
                     </th>
                 </tr>`
         return user
@@ -152,6 +152,19 @@ $(document).ready(function () {
 
 
         }
+    })
+    $(document).on("click", ".delete-user-btn", function () {
+        id = $(this).data("id")
+        $.ajax({
+            url: "api/users/" + id,
+            method: "DELETE",
+            success: function (response) {
+                getAllRow()
+                console.log(response)
+            }, error: function (request, err) {
+                console.log(request)
+            }
+        })
     })
 
 });
