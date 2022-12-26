@@ -72,21 +72,22 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response, data) {
+                    console.log(response)
                     $("#create-user")[0].reset();
                     $("#userModal").modal('hide')
-                    // console.log(response)
                     getAllRow()
+                    alert("created new user")
                 },
                 error: function (request, error) {
                     console.log(error);
-                    // console.log(request)
+                    console.log(request)
                 }
             })
         }
     })
     $(document).on('click', ".edit-user", function () {
-        let id = $(this).data('id');
-        modal.find(".modal-title").html("Edit User");
+        let id = $(this).data("id");
+        $("#edit-id").val(id)
         $.ajax({
             url: "api/users/" + id + "/edit",
             method: "get",
@@ -95,6 +96,7 @@ $(document).ready(function () {
                 modal.find("#email").val(response.data.email);
                 modal.find("#gender").val(response.data.gender);
                 modal.find("#address").val(response.data.address);
+                modal.find(".modal-title").html(response.title);
                 modal.find("#action").val("editUser")
             }, error: function (error, request) {
                 console.log(error)
@@ -102,28 +104,55 @@ $(document).ready(function () {
             }
         });
 
-        $(document).on('submit', "#create-user", function (e) {
-            e.preventDefault();
-            if ($("#action").val() == "editUser") {
-                $.ajax({
-                    url: "api/users/" + id,
-                    method: "put",
-                    dataType: "json",
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function (response, data) {
+    });
+    $(document).on('submit', "#create-user", function (e) {
+        e.preventDefault();
+        id = $("#edit-id").val();
+        if ($("#action").val() == "editUser") {
+            let data = new FormData(this);
+            data.append('_method', 'PATCH');
+            $.ajax({
+                url: '/api/users/' + id,
+                method: "post",
+                data: data,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+
+                },
+                success: function (response) {
+                    if (response.status == 1) {
+                        console.log(response.data);
                         $("#create-user")[0].reset();
                         $("#userModal").modal('hide')
-                        console.log(response)
                         getAllRow()
-                    },
-                    error: function (request, error) {
-                        // console.log(error);
-                        console.log(request)
                     }
-                })
-            }
-        })
-    });
+                    else {
+                        // console.log()
+                        if (typeof (response) == "object") {
+                            $.each(response.data, function (index, field) {
+                                if (index != "") {
+                                    alert(field)
+                                }
+                            })
+                        } else {
+                            alert(response)
+                        }
+                    }
+
+                },
+                error: function (request, error) {
+                    console.log(request);
+                    // console.log(error);
+                    alert(request)
+
+                }
+            })
+
+
+        }
+    })
+
 });
+

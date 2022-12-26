@@ -40,6 +40,7 @@
                     </div>
                 </div>
                 <input type="text" name="action" id="action" value="createUser">
+                <input type="hidden" name="edit_id" id="edit-id">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="sumbit" class="btn btn-primary">Sumbit</button>

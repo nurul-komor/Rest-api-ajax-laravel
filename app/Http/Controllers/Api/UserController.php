@@ -50,6 +50,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $validator = Validator::make($request->all(),[
             "username" => "required",
             "email" => "required|email|unique:users",
@@ -136,7 +137,56 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json("update",200);
+        // return ($request->all());
+        // die;
+        $user = User::find($id);
+        if(is_null($user)){
+            $response = "user not found";
+            $resCode = 404;
+            $status = 0;
+        }else{
+            $validator = Validator::make($request->all(),[
+                "username" => "required",
+                "email" => "required|email",
+            ]);
+            // print_r($validator);
+            if($validator->fails()){
+                $response = $validator->messages();
+                //$resCode = 400; /* -------------this is right one --------------------- */
+                $resCode = 200;
+                $status = 0;
+
+            }
+            else{
+                $user->name = $request->username;
+                $user->email = $request->email;
+                $user->address = $request->address;
+                $user->gender = $request->gender;
+                if(!empty($request->file("image"))){
+                    $destination = "uploads/";
+                    $fileName = time()."-".pathinfo($request->file('image')->getClientOriginalName(),PATHINFO_FILENAME).".".$request->file("image")->getClientOriginalExtension();
+                    $request->file("image")->move(public_path($destination),$fileName);
+                    $user->image = $fileName;
+                }
+                DB::beginTransaction();
+                try{
+                    $user->save();
+                    DB::commit();
+                    $response = "updated successfully";
+                    $resCode = 200;
+                    $status = 1;
+                }catch(\Exception $e){
+                    DB::rollBack();
+                    $response = $e->getMessage();
+                    $resCode = 500;
+                    $status = 0;
+                }
+            }
+        }
+        return response()->json([
+            "status" => $status,
+            "data" => $response
+        ], $resCode);
     }
 
     /**
