@@ -160,9 +160,9 @@ $(document).ready(function () {
             method: "DELETE",
             success: function (response) {
                 getAllRow()
-                console.log(response)
+                console.log(response);
             }, error: function (request, err) {
-                console.log(request)
+                console.log(request);
             }
         })
     })
