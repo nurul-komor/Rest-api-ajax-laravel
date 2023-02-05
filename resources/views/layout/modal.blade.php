@@ -21,6 +21,11 @@
                             else.</small>
                     </div>
                     <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" aria-describedby="password"
+                            placeholder="Enter password" name="password">
+                    </div>
+                    <div class="form-group">
                         <label for="gender">Gender</label>
                         <select name="gender" id="gender" class="form-select">
                             <option value="" selected>-- please select gender --</option>

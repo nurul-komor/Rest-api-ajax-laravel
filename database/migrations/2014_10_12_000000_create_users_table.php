@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+
 return new class extends Migration
 {
     /**
@@ -15,9 +16,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid("id")->toString();
             $table->string('name');
-            $table->string('email',100)->unique();
+            $table->string("password");
+            $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('gender',5)->nullable();
+            $table->string('gender', 5)->nullable();
             $table->text('address')->nullable();
             $table->string('image')->nullable();
             $table->rememberToken();

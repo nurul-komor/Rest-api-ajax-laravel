@@ -16,5 +16,5 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return redirect('/users');
 });
-Route::resource('/users',UserController::class);
-Route::get('/user/trashes',[UserController::class]);
+Route::resource('/users', UserController::class);
+Route::get('/user/trashes', [UserController::class]);
